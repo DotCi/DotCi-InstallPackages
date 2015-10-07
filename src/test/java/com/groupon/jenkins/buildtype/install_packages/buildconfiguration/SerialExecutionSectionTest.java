@@ -20,22 +20,24 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-*/
+ */
 package com.groupon.jenkins.buildtype.install_packages.buildconfiguration;
 
-import com.groupon.jenkins.buildtype.install_packages.buildconfiguration.configvalue.ListOrSingleValue;
 import com.groupon.jenkins.buildtype.util.shell.ShellCommands;
-import hudson.matrix.Combination;
+import org.junit.Test;
 
-public class AfterRunSection extends SerialExecutionSection {
+import static org.junit.Assert.*;
 
-    public AfterRunSection(ListOrSingleValue<String> configValue) {
-        super("after", configValue);
+import static com.groupon.jenkins.testhelpers.TestHelpers.configListOrSingleValue;
+
+public class SerialExecutionSectionTest {
+
+    @Test
+    public void should_execute_commands_listed() {
+        SerialExecutionSection checkoutSection = new SerialExecutionSection("checkout", configListOrSingleValue("git checkout $git_url", "git submodule init"));
+        ShellCommands checkoutCommands = checkoutSection.toScript(null);
+        assertTrue(checkoutCommands.toShellScript().contains("git checkout $git_url"));
+        assertTrue(checkoutCommands.toShellScript().contains("git checkout $git_url"));
+
     }
-
-    @Override
-    public ShellCommands toScript(Combination combination) {
-        return "post_build".equals(combination.get("script")) ? super.toScript(combination) : null;
-    }
-
 }

@@ -31,6 +31,7 @@ import com.groupon.jenkins.buildtype.install_packages.buildconfiguration.configv
 import com.groupon.jenkins.buildtype.install_packages.buildconfiguration.configvalue.ListOrSingleValue;
 import com.groupon.jenkins.buildtype.install_packages.buildconfiguration.configvalue.ListValue;
 import com.groupon.jenkins.buildtype.install_packages.buildconfiguration.configvalue.MapValue;
+import com.groupon.jenkins.install_packages.buildconfiguration.*;
 
 public class BuildSection extends CompositeConfigSection {
 
