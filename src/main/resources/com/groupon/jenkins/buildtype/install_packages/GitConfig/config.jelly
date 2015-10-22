@@ -2,7 +2,7 @@
          xmlns:t="/lib/hudson" xmlns:f="/lib/form">
     <f:section title="Install Packages Build Type ">
         <f:entry title="Clone Url Template">
-            <f:textbox name="dotci.install_packages.cloneUrl" value="${instance.cloneUrlTemplate}"/>
+            <f:textbox name="dotci.install_packages.cloneUrlTemplate" value="${instance.cloneUrlTemplate}"/>
         </f:entry>
     </f:section>
 </j:jelly>
