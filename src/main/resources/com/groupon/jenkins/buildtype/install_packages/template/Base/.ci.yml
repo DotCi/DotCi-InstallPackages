@@ -33,7 +33,7 @@ build:
   checkout: 
     -  find . ! -path "./deploykey_rsa.pub" ! -path "./deploykey_rsa" -delete
     - git init
-    - git remote add origin $GIT_URL
+    - git remote add origin $DOTCI_INSTALL_PACKAGES_GIT_CLONE_URL
     #=============PR checkout================
     <% if(DOTCI_PULL_REQUEST) { %>
 
