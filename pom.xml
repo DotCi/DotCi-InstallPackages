@@ -11,7 +11,7 @@
   </parent>
   <groupId>com.groupon.jenkins</groupId>
   <artifactId>DotCiInstallPackages</artifactId>
-  <version>1.1.1-SNAPSHOT</version>
+  <version>1.1.1</version>
   <packaging>hpi</packaging>
 
   <name>DotCiInstallPackages</name>
@@ -27,7 +27,7 @@
     <connection>scm:git:ssh://github.com/DotCi/DotCiInstallPackages.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/DotCi/DotCiInstallPackages.git</developerConnection>
     <url>https://github.com/DotCi/DotCiInstallPackages</url>
-    <tag>DotCiInstallPackages-1.0.0</tag>
+    <tag>DotCiInstallPackages-1.1.1</tag>
   </scm>
 
   <repositories>
