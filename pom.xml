@@ -21,6 +21,13 @@
       <url>http://opensource.org/licenses/MIT</url>
     </license>
   </licenses>
+  <developers>
+    <developer>
+      <id>sgaddipati</id>
+      <name>Surya Gaddipati</name>
+      <email>surya.gaddipati@gmail.com</email>
+    </developer>
+  </developers>
   <description> Adds Install packages support to DotCi</description>
   <url>https://github.com/DotCi/DotCiInstallPackages</url>
   <scm>
