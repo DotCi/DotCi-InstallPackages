@@ -33,7 +33,7 @@ THE SOFTWARE.
     </parent>
     <groupId>com.groupon.jenkins-ci.plugins</groupId>
     <artifactId>DotCi-InstallPackages</artifactId>
-    <version>1.1.7</version>
+    <version>1.1.8-SNAPSHOT</version>
     <name>DotCi InstallPackages</name>
     <packaging>hpi</packaging>
     <licenses>
@@ -55,7 +55,7 @@ THE SOFTWARE.
         <connection>scm:git:ssh://github.com/DotCi/DotCi-InstallPackages.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/DotCi/DotCi-InstallPackages.git</developerConnection>
         <url>https://github.com/DotCi/DotCi-InstallPackages</url>
-        <tag>DotCi-InstallPackages-1.1.7</tag>
+        <tag>HEAD</tag>
     </scm>
     <repositories>
         <repository>
