@@ -29,7 +29,7 @@ environment:
   vars:
     RACK_ENV: test
     RAILS_ENV: test
-    BUNDLE_PATH: /tmp/bundle_cache`pwd`
+    BUNDLE_PATH: /tmp/bundle_cache/\$JOB_NAME/`(jruby -v 2>/dev/null || ruby -v) | awk '{print \$1 "-" \$2}'`
     BUNDLE_FROZEN: true
     BUNDLE_WITHOUT: production:development
     BUNDLER_VERSION: 1.9.9
