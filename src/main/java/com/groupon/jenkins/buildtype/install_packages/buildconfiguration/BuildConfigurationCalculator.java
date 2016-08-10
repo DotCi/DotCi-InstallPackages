@@ -26,10 +26,13 @@ package com.groupon.jenkins.buildtype.install_packages.buildconfiguration;
 import com.groupon.jenkins.buildtype.InvalidBuildConfigurationException;
 import com.groupon.jenkins.buildtype.install_packages.template.DotCiTemplate;
 import com.groupon.jenkins.github.services.GithubRepositoryService;
+import org.apache.commons.io.IOUtils;
+import org.kohsuke.github.GHContent;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.Map;
-import org.kohsuke.github.GHContent;
 
 public class BuildConfigurationCalculator {
 
@@ -38,7 +41,7 @@ public class BuildConfigurationCalculator {
         DotCiTemplate dotCiTemplate = new DotCiTemplate();
         try {
             GHContent file = githubRepositoryService.getGHFile(".ci.yml", sha);
-            BuildConfiguration configuration = new BuildConfiguration(file.getContent(), envVars);
+            BuildConfiguration configuration = new BuildConfiguration(IOUtils.toString(file.read(), Charset.defaultCharset()), envVars);
             if (!configuration.isValid()) {
                 throw new InvalidBuildConfigurationException(configuration.getValidationErrors());
             }
