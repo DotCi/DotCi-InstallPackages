@@ -24,7 +24,7 @@
 parent_template: install_packages
 environment:
   language: java
-  language_versions: 1.6.0_24
+  language_versions: 1.7.0_80
 
 build:
   info:
