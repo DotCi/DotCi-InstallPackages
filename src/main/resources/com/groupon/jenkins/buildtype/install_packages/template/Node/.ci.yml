@@ -29,6 +29,8 @@ environment:
     TMPDIR: '\${WORKSPACE}/tmp'
 
 build:
+  info:
+    - npm version
   before:
     - trap "rm -rf $TMPDIR" EXIT HUP INT QUIT PIPE TERM
     - mkdir -p $TMPDIR
