@@ -26,16 +26,17 @@ package com.groupon.jenkins.buildtype.install_packages.buildconfiguration.config
 import com.google.inject.TypeLiteral;
 
 //@formatter:off 
+
 /**
  * Abstraction over value of section in .ci.yml . this could be a list or a map
- * or a string 
+ * or a string
  * eg: a) run:echo hello
- *     b) run :
- *         - echo hello 
- *         - echo world 
- *      c) run:
- *          unit: spec unit 
- *          integration: spec unit
+ * b) run :
+ * - echo hello
+ * - echo world
+ * c) run:
+ * unit: spec unit
+ * integration: spec unit
  */
 //@formatter:on 
 

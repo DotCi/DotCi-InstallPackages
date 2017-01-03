@@ -31,6 +31,6 @@ import org.kohsuke.github.GHRepository;
 public class Clojure extends InstallPackages {
     @Override
     protected boolean isDefault(GHRepository githubRepository) {
-        return "clojure".equalsIgnoreCase( githubRepository.getLanguage());
+        return "clojure".equalsIgnoreCase(githubRepository.getLanguage());
     }
 }

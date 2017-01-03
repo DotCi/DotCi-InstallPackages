@@ -28,6 +28,7 @@ import com.groupon.jenkins.buildtype.util.shell.ShellCommands;
 import com.groupon.jenkins.extensions.DotCiExtensionsHelper;
 import com.groupon.jenkins.notifications.PostBuildNotifier;
 import hudson.matrix.Combination;
+
 import java.util.List;
 
 public class NotificationsSection extends ConfigSection<ListValue<?>> {

@@ -29,7 +29,8 @@ import com.groupon.jenkins.buildtype.util.shell.ShellCommands;
 import hudson.matrix.Combination;
 
 public class ParentTemplateSection extends ConfigSection<StringValue> {
-    public static final String NAME ="parent_template";
+    public static final String NAME = "parent_template";
+
     protected ParentTemplateSection(StringValue configValue) {
         super(NAME, configValue, MergeStrategy.REPLACE);
     }

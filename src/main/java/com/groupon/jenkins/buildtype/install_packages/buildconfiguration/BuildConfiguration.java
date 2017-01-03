@@ -29,19 +29,20 @@ import com.groupon.jenkins.buildtype.install_packages.buildconfiguration.configv
 import com.groupon.jenkins.buildtype.plugins.DotCiPluginAdapter;
 import com.groupon.jenkins.notifications.PostBuildNotifier;
 import com.groupon.jenkins.util.GroovyYamlTemplateProcessor;
+
 import java.util.List;
 import java.util.Map;
 
 public class BuildConfiguration extends CompositeConfigSection {
 
-    private EnvironmentSection environmentSection;
     protected BuildSection buildSection;
+    private EnvironmentSection environmentSection;
     private NotificationsSection notificationsSection;
     private PluginsSection pluginsSection;
     private ParentTemplateSection parentTemplateSection;
 
-    public BuildConfiguration(String ymlDefintion, Map<String,Object> envVars) {
-        this( new MapValue<String,Object> (new GroovyYamlTemplateProcessor(ymlDefintion, envVars).getConfig()));
+    public BuildConfiguration(String ymlDefintion, Map<String, Object> envVars) {
+        this(new MapValue<String, Object>(new GroovyYamlTemplateProcessor(ymlDefintion, envVars).getConfig()));
     }
 
     public BuildConfiguration(MapValue<String, ?> config) {
@@ -58,7 +59,7 @@ public class BuildConfiguration extends CompositeConfigSection {
         setSubSections(environmentSection, buildSection, notificationsSection, pluginsSection);
     }
 
-    public String getParentTemplate(){
+    public String getParentTemplate() {
         return parentTemplateSection.getConfigValue().getValue();
     }
 

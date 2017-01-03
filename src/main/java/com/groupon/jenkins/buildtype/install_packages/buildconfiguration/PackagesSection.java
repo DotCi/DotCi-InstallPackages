@@ -27,6 +27,7 @@ import com.google.common.base.Joiner;
 import com.groupon.jenkins.buildtype.install_packages.buildconfiguration.configvalue.ListOrSingleValue;
 import com.groupon.jenkins.buildtype.util.shell.ShellCommands;
 import hudson.matrix.Combination;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +45,7 @@ public class PackagesSection extends ConfigSection<ListOrSingleValue<String>> {
 
     @Override
     public ShellCommands toScript(Combination combination) {
-        return  new ShellCommands(getInstallPackagesScript(combination)) ;
+        return new ShellCommands(getInstallPackagesScript(combination));
     }
 
     protected String getInstallPackagesScript(Combination combination) {

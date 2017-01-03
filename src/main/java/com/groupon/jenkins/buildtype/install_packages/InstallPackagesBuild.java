@@ -47,6 +47,7 @@ import hudson.matrix.AxisList;
 import hudson.matrix.Combination;
 import hudson.model.BuildListener;
 import hudson.model.Result;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
@@ -55,7 +56,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Extension
-public class InstallPackagesBuild extends BuildType implements SubBuildRunner{
+public class InstallPackagesBuild extends BuildType implements SubBuildRunner {
     private static final Logger LOGGER = Logger.getLogger(InstallPackagesBuild.class.getName());
     private BuildConfiguration buildConfiguration;
 
@@ -73,20 +74,21 @@ public class InstallPackagesBuild extends BuildType implements SubBuildRunner{
         }
 
         dynamicBuild.setAxisList(getAxisList(buildConfiguration));
-       Result result ;
-        if(buildConfiguration.isParallized()){
-            result = runMultiConfigbuildRunner(dynamicBuild, buildConfiguration, listener, launcher);;
-        }else{
-             result = runSingleConfigBuild(dynamicBuild, new Combination(ImmutableMap.of("script", "main")),buildConfiguration,buildExecutionContext,listener,launcher) ;
+        Result result;
+        if (buildConfiguration.isParallized()) {
+            result = runMultiConfigbuildRunner(dynamicBuild, buildConfiguration, listener, launcher);
+            ;
+        } else {
+            result = runSingleConfigBuild(dynamicBuild, new Combination(ImmutableMap.of("script", "main")), buildConfiguration, buildExecutionContext, listener, launcher);
         }
         runPlugins(dynamicBuild, buildConfiguration.getPlugins(), listener, launcher);
-        runNotifiers(dynamicBuild,buildConfiguration,listener);
+        runNotifiers(dynamicBuild, buildConfiguration, listener);
         return result;
     }
 
 
     private boolean runNotifiers(DynamicBuild build, BuildConfiguration buildConfiguration, BuildListener listener) {
-        boolean result = true ;
+        boolean result = true;
         List<PostBuildNotifier> notifiers = buildConfiguration.getNotifiers();
         for (PostBuildNotifier notifier : notifiers) {
             result = result & notifier.perform(build, listener);
@@ -96,10 +98,10 @@ public class InstallPackagesBuild extends BuildType implements SubBuildRunner{
 
     @Override
     public Result runSubBuild(Combination combination, BuildExecutionContext dynamicSubBuildExecution, BuildListener listener) throws IOException, InterruptedException {
-        return runBuildCombination(combination,dynamicSubBuildExecution,listener);
+        return runBuildCombination(combination, dynamicSubBuildExecution, listener);
     }
 
-    private Result runMultiConfigbuildRunner(final DynamicBuild dynamicBuild, final BuildConfiguration buildConfiguration, final BuildListener listener, Launcher launcher)throws InterruptedException, IOException {
+    private Result runMultiConfigbuildRunner(final DynamicBuild dynamicBuild, final BuildConfiguration buildConfiguration, final BuildListener listener, Launcher launcher) throws InterruptedException, IOException {
         SubBuildScheduler subBuildScheduler = new SubBuildScheduler(dynamicBuild, this, new SubBuildScheduler.SubBuildFinishListener() {
             @Override
             public void runFinished(DynamicSubBuild subBuild) throws IOException {
@@ -133,17 +135,15 @@ public class InstallPackagesBuild extends BuildType implements SubBuildRunner{
     }
 
     private void runPlugins(DynamicBuild dynamicBuild, List<DotCiPluginAdapter> plugins, BuildListener listener, Launcher launcher) {
-        for(DotCiPluginAdapter plugin : plugins){
+        for (DotCiPluginAdapter plugin : plugins) {
             plugin.perform(dynamicBuild, launcher, listener);
         }
     }
 
-    private Result runBuildCombination(Combination combination,BuildExecutionContext buildExecutionContext, BuildListener listener) throws IOException, InterruptedException {
+    private Result runBuildCombination(Combination combination, BuildExecutionContext buildExecutionContext, BuildListener listener) throws IOException, InterruptedException {
         ShellCommands mainBuildScript = buildConfiguration.toScript(combination);
-        return new ShellScriptRunner(buildExecutionContext,listener).runScript(mainBuildScript);
+        return new ShellScriptRunner(buildExecutionContext, listener).runScript(mainBuildScript);
     }
-
-
 
 
     private BuildConfiguration calculateBuildConfiguration(DynamicBuild build, BuildListener listener) throws IOException, InterruptedException, InvalidBuildConfigurationException {
@@ -151,16 +151,13 @@ public class InstallPackagesBuild extends BuildType implements SubBuildRunner{
     }
 
 
-
     private AxisList getAxisList(BuildConfiguration buildConfiguration) {
-        AxisList  axisList = new AxisList(new Axis("script", "main"));
+        AxisList axisList = new AxisList(new Axis("script", "main"));
         if (buildConfiguration.isMultiLanguageVersions() && buildConfiguration.isMultiScript()) {
             axisList = new AxisList(new Axis("language_version", buildConfiguration.getLanguageVersions()), new Axis("script", buildConfiguration.getScriptKeys()));
-        }
-        else if (buildConfiguration.isMultiLanguageVersions()) {
+        } else if (buildConfiguration.isMultiLanguageVersions()) {
             axisList = new AxisList(new Axis("language_version", buildConfiguration.getLanguageVersions()));
-        }
-        else if (buildConfiguration.isMultiScript()) {
+        } else if (buildConfiguration.isMultiScript()) {
             axisList = new AxisList(new Axis("script", buildConfiguration.getScriptKeys()));
         }
         return axisList;

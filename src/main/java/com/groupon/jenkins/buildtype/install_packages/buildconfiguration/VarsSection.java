@@ -26,6 +26,7 @@ package com.groupon.jenkins.buildtype.install_packages.buildconfiguration;
 import com.groupon.jenkins.buildtype.install_packages.buildconfiguration.configvalue.MapValue;
 import com.groupon.jenkins.buildtype.util.shell.ShellCommands;
 import hudson.matrix.Combination;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -39,7 +40,7 @@ public class VarsSection extends ConfigSection<MapValue<String, String>> {
 
     @Override
     public ShellCommands toScript(Combination combination) {
-        return  new ShellCommands(getEnvVariablesExportCommands());
+        return new ShellCommands(getEnvVariablesExportCommands());
     }
 
     protected String[] getEnvVariablesExportCommands() {

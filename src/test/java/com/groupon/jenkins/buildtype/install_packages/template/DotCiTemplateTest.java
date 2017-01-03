@@ -25,11 +25,12 @@
 package com.groupon.jenkins.buildtype.install_packages.template;
 
 import com.groupon.jenkins.buildtype.install_packages.buildconfiguration.BuildConfiguration;
-import java.util.HashMap;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.jvnet.hudson.test.JenkinsRule;
+
+import java.util.HashMap;
 
 public class DotCiTemplateTest {
     @Rule
@@ -37,7 +38,7 @@ public class DotCiTemplateTest {
 
 
     @Test
-    public void should_load_base_templates(){
+    public void should_load_base_templates() {
         DotCiTemplate rubyTemplate = new DotCiTemplate().getTemplates().get("ruby");
         Assert.assertNotNull(rubyTemplate);
         BuildConfiguration buildConfiguration = rubyTemplate.getBuildConfiguration(new HashMap<String, Object>());

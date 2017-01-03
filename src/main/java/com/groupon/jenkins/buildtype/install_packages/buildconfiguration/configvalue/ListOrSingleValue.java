@@ -29,8 +29,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class ListOrSingleValue<T> extends ConfigValue<Object> {
-    public ListOrSingleValue(Object ... one){
-       super(null);
+    public ListOrSingleValue(Object... one) {
+        super(null);
     }
 
     public ListOrSingleValue(Object value) {
@@ -73,11 +73,11 @@ public class ListOrSingleValue<T> extends ConfigValue<Object> {
 
     @Override
     public <R> R getValue(Class<R> returnType) {
-        if(List.class.isAssignableFrom(returnType)){
+        if (List.class.isAssignableFrom(returnType)) {
             return (R) getValues();
         }
-        if(String.class.isAssignableFrom(returnType)){
-            return (R)getValues().get(0);
+        if (String.class.isAssignableFrom(returnType)) {
+            return (R) getValues().get(0);
         }
         return (R) getValue();
     }

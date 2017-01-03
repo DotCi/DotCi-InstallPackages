@@ -37,6 +37,6 @@ public class BeforeSection extends ConfigSection<ListOrSingleValue<String>> {
 
     @Override
     public ShellCommands toScript(Combination combination) {
-        return  new ShellCommands(getConfigValue().getValues().toArray(new String[] {}));
+        return new ShellCommands(getConfigValue().getValues().toArray(new String[]{}));
     }
 }

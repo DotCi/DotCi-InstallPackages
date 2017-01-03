@@ -31,6 +31,6 @@ import org.kohsuke.github.GHRepository;
 public class GoLang extends InstallPackages {
     @Override
     protected boolean isDefault(GHRepository githubRepository) {
-        return "go".equalsIgnoreCase( githubRepository.getLanguage());
+        return "go".equalsIgnoreCase(githubRepository.getLanguage());
     }
 }

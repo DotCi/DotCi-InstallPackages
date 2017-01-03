@@ -25,16 +25,16 @@ package com.groupon.jenkins.buildtype.install_packages.buildconfiguration;
 
 import com.groupon.jenkins.buildtype.install_packages.buildconfiguration.configvalue.ListOrSingleValue;
 import com.groupon.jenkins.buildtype.install_packages.buildconfiguration.configvalue.MapValue;
-import com.groupon.jenkins.buildtype.util.shell.ShellCommands;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
-import static java.lang.String.format;
+import java.util.List;
 
 public class EnvironmentSection extends CompositeConfigSection {
 
     public static final String NAME = "environment";
+    // See the ambassador pattern :  https://docs.docker.com/articles/ambassador_pattern_linking/
+    public final String DEFAULT_LINK_PROXY = "if [ -x /usr/bin/socat ]; then env | grep _TCP= | sed 's/.*_PORT_\\" +
+            "([0-9]*\\)_TCP=tcp:\\/\\/\\(.*\\):\\(.*\\)/socat TCP4-LISTEN:\\1,fork,reuseaddr TCP4:\\2:\\3 \\&/' " +
+            "| sh ;fi && ";
     private final LanguageVersionsSection languageVersionsSection;
     private final LanguageSection languageSection;
     private final VarsSection varsSection;
@@ -66,8 +66,6 @@ public class EnvironmentSection extends CompositeConfigSection {
         return packagesSection;
     }
 
-
-
     public String buildCommandAmbassador(String buildCommand) {
         String shellPrefix = "sh -c \"env && ";
         if (buildCommand.contains(shellPrefix)) {
@@ -76,9 +74,4 @@ public class EnvironmentSection extends CompositeConfigSection {
         }
         return buildCommand;
     }
-
-    // See the ambassador pattern :  https://docs.docker.com/articles/ambassador_pattern_linking/
-    public final String DEFAULT_LINK_PROXY = "if [ -x /usr/bin/socat ]; then env | grep _TCP= | sed 's/.*_PORT_\\" +
-            "([0-9]*\\)_TCP=tcp:\\/\\/\\(.*\\):\\(.*\\)/socat TCP4-LISTEN:\\1,fork,reuseaddr TCP4:\\2:\\3 \\&/' " +
-            "| sh ;fi && ";
 }

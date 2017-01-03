@@ -36,7 +36,7 @@ import java.util.Map;
 
 public class BuildConfigurationCalculator {
 
-    public BuildConfiguration calculateBuildConfiguration(String githubRepoUrl, String sha, Map<String,Object> envVars) throws IOException, InterruptedException, InvalidBuildConfigurationException {
+    public BuildConfiguration calculateBuildConfiguration(String githubRepoUrl, String sha, Map<String, Object> envVars) throws IOException, InterruptedException, InvalidBuildConfigurationException {
         GithubRepositoryService githubRepositoryService = getGithubRepositoryService(githubRepoUrl);
         DotCiTemplate dotCiTemplate = new DotCiTemplate();
         try {
@@ -45,10 +45,10 @@ public class BuildConfigurationCalculator {
             if (!configuration.isValid()) {
                 throw new InvalidBuildConfigurationException(configuration.getValidationErrors());
             }
-          if(configuration.getLanguage() == null){
-              DotCiTemplate defaultParentTemplate = dotCiTemplate.getDefaultFor(githubRepositoryService.getGithubRepository()); //.getBuildConfiguration(envVars);
-              return dotCiTemplate.getMergedTemplate(configuration,defaultParentTemplate,envVars);
-          }
+            if (configuration.getLanguage() == null) {
+                DotCiTemplate defaultParentTemplate = dotCiTemplate.getDefaultFor(githubRepositoryService.getGithubRepository()); //.getBuildConfiguration(envVars);
+                return dotCiTemplate.getMergedTemplate(configuration, defaultParentTemplate, envVars);
+            }
             return dotCiTemplate.getMergedTemplate(configuration, configuration.getLanguage(), envVars);
         } catch (FileNotFoundException e) {
             return dotCiTemplate.getDefaultFor(githubRepositoryService.getGithubRepository()).getBuildConfiguration(envVars);

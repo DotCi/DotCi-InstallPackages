@@ -23,13 +23,11 @@ THE SOFTWARE.
  */
 package com.groupon.jenkins.buildtype.install_packages.buildconfiguration;
 
-import hudson.matrix.Combination;
-
-import org.junit.Test;
-
 import com.google.common.collect.ImmutableMap;
 import com.groupon.jenkins.buildtype.install_packages.buildconfiguration.configvalue.ListOrSingleValue;
 import com.groupon.jenkins.buildtype.install_packages.buildconfiguration.configvalue.StringValue;
+import hudson.matrix.Combination;
+import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 

@@ -23,9 +23,14 @@ THE SOFTWARE.
  */
 package com.groupon.jenkins.buildtype.install_packages.buildconfiguration;
 
-import com.groupon.jenkins.buildtype.install_packages.buildconfiguration.configvalue.*;
+import com.groupon.jenkins.buildtype.install_packages.buildconfiguration.configvalue.BooleanValue;
+import com.groupon.jenkins.buildtype.install_packages.buildconfiguration.configvalue.ListOrMapOrString;
+import com.groupon.jenkins.buildtype.install_packages.buildconfiguration.configvalue.ListOrSingleValue;
+import com.groupon.jenkins.buildtype.install_packages.buildconfiguration.configvalue.ListValue;
+import com.groupon.jenkins.buildtype.install_packages.buildconfiguration.configvalue.MapValue;
 
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
 
 public class BuildSection extends CompositeConfigSection {
 

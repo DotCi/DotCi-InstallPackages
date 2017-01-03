@@ -29,15 +29,16 @@ import com.groupon.jenkins.buildtype.install_packages.buildconfiguration.BuildCo
 import com.groupon.jenkins.util.ResourceUtils;
 import hudson.ExtensionList;
 import hudson.ExtensionPoint;
-import java.util.HashMap;
-import java.util.Map;
 import jenkins.model.Jenkins;
 import org.kohsuke.github.GHRepository;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class DotCiTemplate implements ExtensionPoint {
-    private String ymlDefintion;
     private static Map<String, DotCiTemplate> templates;
+    private String ymlDefintion;
 
     public static ExtensionList<DotCiTemplate> all() {
         return Jenkins.getInstance().getExtensionList(DotCiTemplate.class);
@@ -49,23 +50,24 @@ public class DotCiTemplate implements ExtensionPoint {
         return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, className);
     }
 
-    public  BuildConfiguration getMergedTemplate(BuildConfiguration configuration, String parentTemplate, Map<String,Object> envVars) {
-         return getMergedTemplate(configuration,getTemplates().get(parentTemplate),envVars);
+    public BuildConfiguration getMergedTemplate(BuildConfiguration configuration, String parentTemplate, Map<String, Object> envVars) {
+        return getMergedTemplate(configuration, getTemplates().get(parentTemplate), envVars);
     }
-    public  BuildConfiguration getMergedTemplate(BuildConfiguration configuration, DotCiTemplate parentTemplate, Map<String,Object> envVars) {
+
+    public BuildConfiguration getMergedTemplate(BuildConfiguration configuration, DotCiTemplate parentTemplate, Map<String, Object> envVars) {
         BuildConfiguration parentBuildConfiguration = parentTemplate.getBuildConfiguration(envVars);
         parentBuildConfiguration.merge(configuration);
         return parentBuildConfiguration;
     }
 
-     Map<String, DotCiTemplate>  getTemplates() {
-        if(templates == null){
+    Map<String, DotCiTemplate> getTemplates() {
+        if (templates == null) {
             loadTemplates();
         }
-       return templates;
+        return templates;
     }
 
-    public BuildConfiguration getBuildConfiguration(Map<String,Object> envVars) {
+    public BuildConfiguration getBuildConfiguration(Map<String, Object> envVars) {
         BuildConfiguration buildConfiguration = new BuildConfiguration(ymlDefintion, envVars);
         if (!buildConfiguration.isBaseTemplate()) {
             return getMergedTemplate(buildConfiguration, buildConfiguration.getParentTemplate(), envVars);
@@ -84,14 +86,13 @@ public class DotCiTemplate implements ExtensionPoint {
 
 
     private void load() {
-        this.ymlDefintion = ResourceUtils.readResource(getClass(),".ci.yml");
+        this.ymlDefintion = ResourceUtils.readResource(getClass(), ".ci.yml");
     }
 
 
-
-    public  DotCiTemplate getDefaultFor(GHRepository githubRepository) {
-        for(DotCiTemplate template : getTemplates().values()){
-           if(template.isDefault(githubRepository)) return template;
+    public DotCiTemplate getDefaultFor(GHRepository githubRepository) {
+        for (DotCiTemplate template : getTemplates().values()) {
+            if (template.isDefault(githubRepository)) return template;
         }
         return null;
     }

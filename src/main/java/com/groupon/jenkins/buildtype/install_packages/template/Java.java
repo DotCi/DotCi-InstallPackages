@@ -31,6 +31,6 @@ import org.kohsuke.github.GHRepository;
 public class Java extends InstallPackages {
     @Override
     protected boolean isDefault(GHRepository githubRepository) {
-        return "java".equalsIgnoreCase( githubRepository.getLanguage());
+        return "java".equalsIgnoreCase(githubRepository.getLanguage());
     }
 }

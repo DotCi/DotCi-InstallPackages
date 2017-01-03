@@ -28,7 +28,7 @@ import com.groupon.jenkins.buildtype.util.shell.ShellCommands;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class SkipSectionTest {
 

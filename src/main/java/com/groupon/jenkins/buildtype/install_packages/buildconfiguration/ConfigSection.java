@@ -27,17 +27,14 @@ import com.google.common.collect.Iterables;
 import com.groupon.jenkins.buildtype.install_packages.buildconfiguration.configvalue.ConfigValue;
 import com.groupon.jenkins.buildtype.util.shell.ShellCommands;
 import hudson.matrix.Combination;
+
 import java.util.Arrays;
 import java.util.Collections;
 
 public abstract class ConfigSection<T extends ConfigValue<?>> {
-    protected T configValue;
     private final String name;
     private final MergeStrategy mergeStrategy;
-
-    protected enum MergeStrategy {
-        REPLACE, APPEND
-    }
+    protected T configValue;
 
     protected ConfigSection(String name, T configValue, MergeStrategy mergeStrategy) {
         this.name = name;
@@ -88,5 +85,9 @@ public abstract class ConfigSection<T extends ConfigValue<?>> {
 
     public boolean isSpecified() {
         return !getConfigValue().isEmpty();
+    }
+
+    protected enum MergeStrategy {
+        REPLACE, APPEND
     }
 }

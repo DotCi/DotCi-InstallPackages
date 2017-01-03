@@ -28,6 +28,7 @@ import com.groupon.jenkins.buildtype.plugins.DotCiPluginAdapter;
 import com.groupon.jenkins.buildtype.util.shell.ShellCommands;
 import com.groupon.jenkins.extensions.DotCiExtensionsHelper;
 import hudson.matrix.Combination;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -56,7 +57,7 @@ public class PluginsSection extends ConfigSection<ListValue<?>> {
     @Override
     public Iterable<String> getValidationErrors() {
         List<String> validationErrors = new ArrayList<String>();
-        for (DotCiPluginAdapter plugin: getPlugins()){
+        for (DotCiPluginAdapter plugin : getPlugins()) {
             validationErrors.addAll(plugin.getValidationErrors());
         }
         return validationErrors;

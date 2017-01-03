@@ -23,14 +23,16 @@ THE SOFTWARE.
  */
 package com.groupon.jenkins.buildtype.install_packages.buildconfiguration.configvalue;
 
+import org.junit.Test;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 import static com.groupon.jenkins.testhelpers.TestHelpers.map;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class ListOrMapOrStringTest {
 
@@ -69,10 +71,10 @@ public class ListOrMapOrStringTest {
     }
 
     @Test
-    public void should_return_requested_type(){
+    public void should_return_requested_type() {
 
-        ListOrMapOrString config = new ListOrMapOrString(map("unit", "blah", "integration","meow"));
+        ListOrMapOrString config = new ListOrMapOrString(map("unit", "blah", "integration", "meow"));
         Map configValue = config.getValue(Map.class);
-        assertEquals("blah",configValue.get("unit"));
+        assertEquals("blah", configValue.get("unit"));
     }
 }

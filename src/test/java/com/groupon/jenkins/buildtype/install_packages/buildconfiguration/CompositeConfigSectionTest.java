@@ -23,11 +23,10 @@ THE SOFTWARE.
  */
 package com.groupon.jenkins.buildtype.install_packages.buildconfiguration;
 
-import org.hamcrest.Matchers;
-import org.junit.Test;
-
 import com.google.common.collect.Lists;
 import com.groupon.jenkins.buildtype.install_packages.buildconfiguration.configvalue.MapValue;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 
 import static com.google.common.collect.Iterables.get;
 import static com.groupon.jenkins.testhelpers.TestHelpers.list;
@@ -37,7 +36,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -74,11 +72,11 @@ public class CompositeConfigSectionTest {
         ConfigSection inValidConfigSection = mock(ConfigSection.class);
         when(inValidConfigSection.getValidationErrors()).thenReturn(list("error_message"));
         when(inValidConfigSection.getName()).thenReturn("environment");
-        when(validConfigSection.getValidationErrors()).thenReturn(Lists.<String> newArrayList());
+        when(validConfigSection.getValidationErrors()).thenReturn(Lists.<String>newArrayList());
         buildConfiguration.setSubSections(validConfigSection, inValidConfigSection);
         assertFalse(buildConfiguration.isValid());
-        assertThat(buildConfiguration.getValidationErrors(), Matchers.<String> iterableWithSize(1));
-        assertThat(buildConfiguration.getValidationErrors(), Matchers.<String> iterableWithSize(1));
+        assertThat(buildConfiguration.getValidationErrors(), Matchers.<String>iterableWithSize(1));
+        assertThat(buildConfiguration.getValidationErrors(), Matchers.<String>iterableWithSize(1));
         assertThat(buildConfiguration.getValidationErrors(), contains("error_message"));
     }
 }

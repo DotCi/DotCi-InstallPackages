@@ -36,6 +36,10 @@ public class BuildConfigurationFactory {
         this.buildConfiguration = mock(BuildConfiguration.class);
     }
 
+    public static BuildConfigurationFactory buildConfiguration() {
+        return new BuildConfigurationFactory();
+    }
+
     public BuildConfigurationFactory skipped() {
         when(buildConfiguration.isSkipped()).thenReturn(true);
         return this;
@@ -43,9 +47,5 @@ public class BuildConfigurationFactory {
 
     public BuildConfiguration get() {
         return buildConfiguration;
-    }
-
-    public static BuildConfigurationFactory buildConfiguration() {
-        return new BuildConfigurationFactory();
     }
 }
