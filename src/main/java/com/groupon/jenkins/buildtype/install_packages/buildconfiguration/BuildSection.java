@@ -41,28 +41,28 @@ public class BuildSection extends CompositeConfigSection {
     private final BeforeSection beforeSection;
     private final SkipSection skipSection;
 
-    public BuildSection(MapValue<String, ?> configValue) {
+    public BuildSection(final MapValue<String, ?> configValue) {
         super(NAME, configValue);
         this.skipSection = new SkipSection(getSectionConfig(SkipSection.NAME, BooleanValue.class));
         this.checkoutSection = new CheckoutSection(getSectionConfig(CheckoutSection.NAME, ListValue.class));
         this.beforeSection = new BeforeSection(getSectionConfig(BeforeSection.NAME, ListOrSingleValue.class));
         this.buildRunSection = new BuildRunSection(getSectionConfig(BuildRunSection.NAME, ListOrMapOrString.class));
         this.afterRunSection = new AfterRunSection(getSectionConfig("after", ListOrSingleValue.class));
-        setSubSections(skipSection, checkoutSection, new BeforeInstallSection(getSectionConfig(BeforeInstallSection.NAME, ListOrSingleValue.class)), new SerialExecutionSection("info", getSectionConfig("info", ListOrSingleValue.class)), beforeSection, buildRunSection, afterRunSection);
+        setSubSections(this.skipSection, this.checkoutSection, new BeforeInstallSection(getSectionConfig(BeforeInstallSection.NAME, ListOrSingleValue.class)), new SerialExecutionSection("info", getSectionConfig("info", ListOrSingleValue.class)), this.beforeSection, this.buildRunSection, this.afterRunSection);
     }
 
     public boolean isMultiScript() {
-        return buildRunSection.isMultiConfig() || !isAfterRunEmpty();
+        return this.buildRunSection.isMultiConfig() || !isAfterRunEmpty();
     }
 
     private boolean isAfterRunEmpty() {
-        return afterRunSection.getConfigValue().isEmpty();
+        return this.afterRunSection.getConfigValue().isEmpty();
     }
 
     public List<String> getScriptKeys() {
-        List<String> keys = new LinkedList<String>();
-        if (buildRunSection.isMultiConfig()) {
-            keys.addAll(buildRunSection.getKeys());
+        final List<String> keys = new LinkedList<String>();
+        if (this.buildRunSection.isMultiConfig()) {
+            keys.addAll(this.buildRunSection.getKeys());
         } else {
             keys.add("default");
         }
@@ -73,7 +73,7 @@ public class BuildSection extends CompositeConfigSection {
     }
 
     public boolean isSkipped() {
-        return skipSection.isSkipped();
+        return this.skipSection.isSkipped();
     }
 
 }

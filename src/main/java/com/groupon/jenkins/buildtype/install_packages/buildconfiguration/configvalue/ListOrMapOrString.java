@@ -31,13 +31,13 @@ import java.util.Set;
 
 public class ListOrMapOrString extends ConfigValue<Object> {
 
-    public ListOrMapOrString(Object configValue) {
+    public ListOrMapOrString(final Object configValue) {
         super(convertMapWithSingleValueIntoValue(configValue));
     }
 
-    private static Object convertMapWithSingleValueIntoValue(Object configValue) {
+    private static Object convertMapWithSingleValueIntoValue(final Object configValue) {
         if (configValue instanceof Map) {
-            Map<String, String> valueAsMap = (Map<String, String>) configValue;
+            final Map<String, String> valueAsMap = (Map<String, String>) configValue;
             if (valueAsMap.size() == 1) {
                 return valueAsMap.values().iterator().next();
             }
@@ -46,12 +46,12 @@ public class ListOrMapOrString extends ConfigValue<Object> {
     }
 
     @Override
-    public void append(ConfigValue<?> config) {
+    public void append(final ConfigValue<?> config) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public <T> T getValue(Class<T> returnType) {
+    public <T> T getValue(final Class<T> returnType) {
         if (Map.class.isAssignableFrom(returnType)) {
             return (T) getMap();
         }
@@ -68,17 +68,15 @@ public class ListOrMapOrString extends ConfigValue<Object> {
         return getValue() instanceof Map;
     }
 
-    @SuppressWarnings("unchecked")
     public Map<String, ?> getMap() {
         return (Map<String, ?>) getValue();
     }
 
-    public List<String> getValues(String key) {
+    public List<String> getValues(final String key) {
         return toList(getMap().get(key));
     }
 
-    @SuppressWarnings("unchecked")
-    private List<String> toList(Object keyValue) {
+    private List<String> toList(final Object keyValue) {
         if (keyValue instanceof List) {
             return (List<String>) keyValue;
         } else if (keyValue == null) {

@@ -40,37 +40,37 @@ public class EnvironmentSection extends CompositeConfigSection {
     private final VarsSection varsSection;
     private final PackagesSection packagesSection;
 
-    public EnvironmentSection(MapValue<String, ?> config) {
+    public EnvironmentSection(final MapValue<String, ?> config) {
         super(NAME, config);
-        languageVersionsSection = new LanguageVersionsSection(getSectionConfig(LanguageVersionsSection.NAME, ListOrSingleValue.class));
-        languageSection = new LanguageSection(getSectionConfig(LanguageSection.NAME, com.groupon.jenkins.buildtype.install_packages.buildconfiguration.configvalue.StringValue.class));
+        this.languageVersionsSection = new LanguageVersionsSection(getSectionConfig(LanguageVersionsSection.NAME, ListOrSingleValue.class));
+        this.languageSection = new LanguageSection(getSectionConfig(LanguageSection.NAME, com.groupon.jenkins.buildtype.install_packages.buildconfiguration.configvalue.StringValue.class));
         this.varsSection = new VarsSection(getSectionConfig(VarsSection.NAME, MapValue.class));
 
-        packagesSection = new PackagesSection(getSectionConfig(PackagesSection.NAME, ListOrSingleValue.class), languageSection, languageVersionsSection);
-        setSubSections(packagesSection, varsSection, languageSection, languageVersionsSection);
+        this.packagesSection = new PackagesSection(getSectionConfig(PackagesSection.NAME, ListOrSingleValue.class), this.languageSection, this.languageVersionsSection);
+        setSubSections(this.packagesSection, this.varsSection, this.languageSection, this.languageVersionsSection);
     }
 
     public boolean isMultiLanguageVersions() {
-        return languageVersionsSection.isMultiLanguageVersions();
+        return this.languageVersionsSection.isMultiLanguageVersions();
     }
 
     public List<String> getLanguageVersions() {
-        return languageVersionsSection.getLanguageVersions();
+        return this.languageVersionsSection.getLanguageVersions();
     }
 
     public String getLanguage() {
-        return languageSection.getLanguage();
+        return this.languageSection.getLanguage();
     }
 
     public PackagesSection getPackagesSection() {
-        return packagesSection;
+        return this.packagesSection;
     }
 
-    public String buildCommandAmbassador(String buildCommand) {
-        String shellPrefix = "sh -c \"env && ";
+    public String buildCommandAmbassador(final String buildCommand) {
+        final String shellPrefix = "sh -c \"env && ";
         if (buildCommand.contains(shellPrefix)) {
-            int defaultEnvLength = shellPrefix.length();
-            return new StringBuilder(buildCommand).insert(defaultEnvLength, DEFAULT_LINK_PROXY).toString();
+            final int defaultEnvLength = shellPrefix.length();
+            return new StringBuilder(buildCommand).insert(defaultEnvLength, this.DEFAULT_LINK_PROXY).toString();
         }
         return buildCommand;
     }

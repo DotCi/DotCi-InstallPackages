@@ -66,56 +66,55 @@ public class InstallPackagesBuild extends BuildType implements SubBuildRunner {
     }
 
     @Override
-    public Result runBuild(DynamicBuild dynamicBuild, BuildExecutionContext buildExecutionContext, Launcher launcher, BuildListener listener) throws IOException, InterruptedException {
+    public Result runBuild(final DynamicBuild dynamicBuild, final BuildExecutionContext buildExecutionContext, final Launcher launcher, final BuildListener listener) throws IOException, InterruptedException {
         this.buildConfiguration = calculateBuildConfiguration(dynamicBuild, listener);
-        if (buildConfiguration.isSkipped()) {
+        if (this.buildConfiguration.isSkipped()) {
             dynamicBuild.skip();
             return Result.SUCCESS;
         }
 
-        dynamicBuild.setAxisList(getAxisList(buildConfiguration));
-        Result result;
-        if (buildConfiguration.isParallized()) {
-            result = runMultiConfigbuildRunner(dynamicBuild, buildConfiguration, listener, launcher);
-            ;
+        dynamicBuild.setAxisList(getAxisList(this.buildConfiguration));
+        final Result result;
+        if (this.buildConfiguration.isParallized()) {
+            result = runMultiConfigbuildRunner(dynamicBuild, this.buildConfiguration, listener, launcher);
         } else {
-            result = runSingleConfigBuild(dynamicBuild, new Combination(ImmutableMap.of("script", "main")), buildConfiguration, buildExecutionContext, listener, launcher);
+            result = runSingleConfigBuild(dynamicBuild, new Combination(ImmutableMap.of("script", "main")), this.buildConfiguration, buildExecutionContext, listener, launcher);
         }
-        runPlugins(dynamicBuild, buildConfiguration.getPlugins(), listener, launcher);
-        runNotifiers(dynamicBuild, buildConfiguration, listener);
+        runPlugins(dynamicBuild, this.buildConfiguration.getPlugins(), listener, launcher);
+        runNotifiers(dynamicBuild, this.buildConfiguration, listener);
         return result;
     }
 
 
-    private boolean runNotifiers(DynamicBuild build, BuildConfiguration buildConfiguration, BuildListener listener) {
+    private boolean runNotifiers(final DynamicBuild build, final BuildConfiguration buildConfiguration, final BuildListener listener) {
         boolean result = true;
-        List<PostBuildNotifier> notifiers = buildConfiguration.getNotifiers();
-        for (PostBuildNotifier notifier : notifiers) {
+        final List<PostBuildNotifier> notifiers = buildConfiguration.getNotifiers();
+        for (final PostBuildNotifier notifier : notifiers) {
             result = result & notifier.perform(build, listener);
         }
         return result;
     }
 
     @Override
-    public Result runSubBuild(Combination combination, BuildExecutionContext dynamicSubBuildExecution, BuildListener listener) throws IOException, InterruptedException {
+    public Result runSubBuild(final Combination combination, final BuildExecutionContext dynamicSubBuildExecution, final BuildListener listener) throws IOException, InterruptedException {
         return runBuildCombination(combination, dynamicSubBuildExecution, listener);
     }
 
-    private Result runMultiConfigbuildRunner(final DynamicBuild dynamicBuild, final BuildConfiguration buildConfiguration, final BuildListener listener, Launcher launcher) throws InterruptedException, IOException {
-        SubBuildScheduler subBuildScheduler = new SubBuildScheduler(dynamicBuild, this, new SubBuildScheduler.SubBuildFinishListener() {
+    private Result runMultiConfigbuildRunner(final DynamicBuild dynamicBuild, final BuildConfiguration buildConfiguration, final BuildListener listener, final Launcher launcher) throws InterruptedException, IOException {
+        final SubBuildScheduler subBuildScheduler = new SubBuildScheduler(dynamicBuild, this, new SubBuildScheduler.SubBuildFinishListener() {
             @Override
-            public void runFinished(DynamicSubBuild subBuild) throws IOException {
-                for (DotCiPluginAdapter plugin : buildConfiguration.getPlugins()) {
+            public void runFinished(final DynamicSubBuild subBuild) throws IOException {
+                for (final DotCiPluginAdapter plugin : buildConfiguration.getPlugins()) {
                     plugin.runFinished(subBuild, dynamicBuild, listener);
                 }
             }
         });
 
         try {
-            Iterable<Combination> axisList = getAxisList(buildConfiguration).list();
+            final Iterable<Combination> axisList = getAxisList(buildConfiguration).list();
             Result combinedResult = subBuildScheduler.runSubBuilds(getMainRunCombinations(axisList), listener);
             if (combinedResult.equals(Result.SUCCESS) && !Iterables.isEmpty(getPostBuildCombination(axisList))) {
-                Result runSubBuildResults = subBuildScheduler.runSubBuilds(getPostBuildCombination(axisList), listener);
+                final Result runSubBuildResults = subBuildScheduler.runSubBuilds(getPostBuildCombination(axisList), listener);
                 combinedResult = combinedResult.combine(runSubBuildResults);
             }
             dynamicBuild.setResult(combinedResult);
@@ -123,35 +122,35 @@ public class InstallPackagesBuild extends BuildType implements SubBuildRunner {
         } finally {
             try {
                 subBuildScheduler.cancelSubBuilds(listener.getLogger());
-            } catch (Exception e) {
+            } catch (final Exception e) {
                 // There is nothing much we can do at this point
                 LOGGER.log(Level.SEVERE, "Failed to cancel subbuilds", e);
             }
         }
     }
 
-    private Result runSingleConfigBuild(DynamicBuild dynamicBuild, Combination combination, BuildConfiguration buildConfiguration, BuildExecutionContext buildExecutionContext, BuildListener listener, Launcher launcher) throws IOException, InterruptedException {
+    private Result runSingleConfigBuild(final DynamicBuild dynamicBuild, final Combination combination, final BuildConfiguration buildConfiguration, final BuildExecutionContext buildExecutionContext, final BuildListener listener, final Launcher launcher) throws IOException, InterruptedException {
         return runBuildCombination(combination, buildExecutionContext, listener);
     }
 
-    private void runPlugins(DynamicBuild dynamicBuild, List<DotCiPluginAdapter> plugins, BuildListener listener, Launcher launcher) {
-        for (DotCiPluginAdapter plugin : plugins) {
+    private void runPlugins(final DynamicBuild dynamicBuild, final List<DotCiPluginAdapter> plugins, final BuildListener listener, final Launcher launcher) {
+        for (final DotCiPluginAdapter plugin : plugins) {
             plugin.perform(dynamicBuild, launcher, listener);
         }
     }
 
-    private Result runBuildCombination(Combination combination, BuildExecutionContext buildExecutionContext, BuildListener listener) throws IOException, InterruptedException {
-        ShellCommands mainBuildScript = buildConfiguration.toScript(combination);
+    private Result runBuildCombination(final Combination combination, final BuildExecutionContext buildExecutionContext, final BuildListener listener) throws IOException, InterruptedException {
+        final ShellCommands mainBuildScript = this.buildConfiguration.toScript(combination);
         return new ShellScriptRunner(buildExecutionContext, listener).runScript(mainBuildScript);
     }
 
 
-    private BuildConfiguration calculateBuildConfiguration(DynamicBuild build, BuildListener listener) throws IOException, InterruptedException, InvalidBuildConfigurationException {
+    private BuildConfiguration calculateBuildConfiguration(final DynamicBuild build, final BuildListener listener) throws IOException, InterruptedException, InvalidBuildConfigurationException {
         return new BuildConfigurationCalculator().calculateBuildConfiguration(build.getGithubRepoUrl(), build.getSha(), build.getEnvironmentWithChangeSet(listener));
     }
 
 
-    private AxisList getAxisList(BuildConfiguration buildConfiguration) {
+    private AxisList getAxisList(final BuildConfiguration buildConfiguration) {
         AxisList axisList = new AxisList(new Axis("script", "main"));
         if (buildConfiguration.isMultiLanguageVersions() && buildConfiguration.isMultiScript()) {
             axisList = new AxisList(new Axis("language_version", buildConfiguration.getLanguageVersions()), new Axis("script", buildConfiguration.getScriptKeys()));
@@ -163,8 +162,8 @@ public class InstallPackagesBuild extends BuildType implements SubBuildRunner {
         return axisList;
     }
 
-    public List<Combination> getPostBuildCombination(Iterable<Combination> axisList) {
-        for (Combination combination : axisList) {
+    public List<Combination> getPostBuildCombination(final Iterable<Combination> axisList) {
+        for (final Combination combination : axisList) {
             if (isPostBuild(combination)) {
                 return Arrays.asList(combination);
             }
@@ -172,14 +171,14 @@ public class InstallPackagesBuild extends BuildType implements SubBuildRunner {
         return Collections.emptyList();
     }
 
-    private boolean isPostBuild(Combination combination) {
+    private boolean isPostBuild(final Combination combination) {
         return "post_build".equals(combination.get("script"));
     }
 
-    public Iterable<Combination> getMainRunCombinations(Iterable<Combination> axisList) {
+    public Iterable<Combination> getMainRunCombinations(final Iterable<Combination> axisList) {
         return Iterables.filter(axisList, new Predicate<Combination>() {
             @Override
-            public boolean apply(Combination combination) {
+            public boolean apply(final Combination combination) {
                 return !isPostBuild(combination);
             }
         });

@@ -42,42 +42,42 @@ public class CompositeConfigSection extends ConfigSection<MapValue<String, ?>> {
 
     private ConfigSection[] subSections;
 
-    protected CompositeConfigSection(String name, MapValue<String, ?> config) {
+    protected CompositeConfigSection(final String name, final MapValue<String, ?> config) {
         super(name, config, MergeStrategy.APPEND);
     }
 
-    protected void setSubSections(ConfigSection... subSections) {
+    protected void setSubSections(final ConfigSection... subSections) {
         this.subSections = subSections;
 
     }
 
     @Override
-    public void merge(ConfigSection otherConfigSection) {
-        for (int i = 0; i < subSections.length; i++) {
-            subSections[i].merge(((CompositeConfigSection) otherConfigSection).subSections[i]);
+    public void merge(final ConfigSection otherConfigSection) {
+        for (int i = 0; i < this.subSections.length; i++) {
+            this.subSections[i].merge(((CompositeConfigSection) otherConfigSection).subSections[i]);
         }
     }
 
     @Override
-    public ShellCommands toScript(Combination combination) {
-        List<ShellCommands> subPhases = new ArrayList<ShellCommands>(subSections.length);
-        for (int i = 0; i < subSections.length; i++) {
-            subPhases.add(subSections[i].toScript(combination));
+    public ShellCommands toScript(final Combination combination) {
+        final List<ShellCommands> subPhases = new ArrayList<ShellCommands>(this.subSections.length);
+        for (int i = 0; i < this.subSections.length; i++) {
+            subPhases.add(this.subSections[i].toScript(combination));
         }
         return ShellCommands.combine(subPhases);
     }
 
-    private Iterable<String> validateForRedundantKeys(Iterable<String> allowedKeys) {
+    private Iterable<String> validateForRedundantKeys(final Iterable<String> allowedKeys) {
         if (getConfigValue().isEmpty()) {
             return Collections.emptyList();
         } else {
-            ArrayList<String> specifiedKeys = new ArrayList<String>(getConfigValue().getValue().keySet());
-            for (String allowedKey : allowedKeys) {
+            final ArrayList<String> specifiedKeys = new ArrayList<String>(getConfigValue().getValue().keySet());
+            for (final String allowedKey : allowedKeys) {
                 specifiedKeys.remove(allowedKey);
             }
             return transform(specifiedKeys, new Function<String, String>() {
                 @Override
-                public String apply(String input) {
+                public String apply(final String input) {
                     return String.format("Unrecognized key %s in %s", input, getName());
                 }
             });
@@ -88,27 +88,27 @@ public class CompositeConfigSection extends ConfigSection<MapValue<String, ?>> {
     public Iterable<String> getValidationErrors() {
         Iterable<String> errors = super.getValidationErrors();
         if (Iterables.isEmpty(errors)) {
-            List<String> allowedKeys = new ArrayList<String>(subSections.length);
-            for (int i = 0; i < subSections.length; i++) {
-                allowedKeys.add(subSections[i].getName());
+            final List<String> allowedKeys = new ArrayList<String>(this.subSections.length);
+            for (int i = 0; i < this.subSections.length; i++) {
+                allowedKeys.add(this.subSections[i].getName());
             }
             errors = Iterables.concat(errors, validateForRedundantKeys(allowedKeys));
-            for (int i = 0; i < subSections.length; i++) {
-                errors = Iterables.concat(errors, subSections[i].getValidationErrors());
+            for (int i = 0; i < this.subSections.length; i++) {
+                errors = Iterables.concat(errors, this.subSections[i].getValidationErrors());
             }
 
         }
         return errors;
     }
 
-    protected <T extends ConfigValue<?>> T getSectionConfig(String name, Class<T> configValueType) {
+    protected <T extends ConfigValue<?>> T getSectionConfig(final String name, final Class<T> configValueType) {
         return getConfigValue().getConfigValue(name, configValueType);
     }
 
     @Override
     protected Object getFinalConfigValue() {
-        Map<String, Object> finalConfig = new HashMap<String, Object>(subSections.length);
-        for (ConfigSection configSection : subSections) {
+        final Map<String, Object> finalConfig = new HashMap<String, Object>(this.subSections.length);
+        for (final ConfigSection configSection : this.subSections) {
             finalConfig.put(configSection.getName(), configSection.getFinalConfigValue());
         }
         return finalConfig;

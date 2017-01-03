@@ -36,26 +36,26 @@ import java.util.Map;
 
 public class BuildConfigurationCalculator {
 
-    public BuildConfiguration calculateBuildConfiguration(String githubRepoUrl, String sha, Map<String, Object> envVars) throws IOException, InterruptedException, InvalidBuildConfigurationException {
-        GithubRepositoryService githubRepositoryService = getGithubRepositoryService(githubRepoUrl);
-        DotCiTemplate dotCiTemplate = new DotCiTemplate();
+    public BuildConfiguration calculateBuildConfiguration(final String githubRepoUrl, final String sha, final Map<String, Object> envVars) throws IOException, InterruptedException, InvalidBuildConfigurationException {
+        final GithubRepositoryService githubRepositoryService = getGithubRepositoryService(githubRepoUrl);
+        final DotCiTemplate dotCiTemplate = new DotCiTemplate();
         try {
-            GHContent file = githubRepositoryService.getGHFile(".ci.yml", sha);
-            BuildConfiguration configuration = new BuildConfiguration(IOUtils.toString(file.read(), Charset.defaultCharset()), envVars);
+            final GHContent file = githubRepositoryService.getGHFile(".ci.yml", sha);
+            final BuildConfiguration configuration = new BuildConfiguration(IOUtils.toString(file.read(), Charset.defaultCharset()), envVars);
             if (!configuration.isValid()) {
                 throw new InvalidBuildConfigurationException(configuration.getValidationErrors());
             }
             if (configuration.getLanguage() == null) {
-                DotCiTemplate defaultParentTemplate = dotCiTemplate.getDefaultFor(githubRepositoryService.getGithubRepository()); //.getBuildConfiguration(envVars);
+                final DotCiTemplate defaultParentTemplate = dotCiTemplate.getDefaultFor(githubRepositoryService.getGithubRepository()); //.getBuildConfiguration(envVars);
                 return dotCiTemplate.getMergedTemplate(configuration, defaultParentTemplate, envVars);
             }
             return dotCiTemplate.getMergedTemplate(configuration, configuration.getLanguage(), envVars);
-        } catch (FileNotFoundException e) {
+        } catch (final FileNotFoundException e) {
             return dotCiTemplate.getDefaultFor(githubRepositoryService.getGithubRepository()).getBuildConfiguration(envVars);
         }
     }
 
-    protected GithubRepositoryService getGithubRepositoryService(String githubRepoUrl) {
+    protected GithubRepositoryService getGithubRepositoryService(final String githubRepoUrl) {
         return new GithubRepositoryService(githubRepoUrl);
     }
 

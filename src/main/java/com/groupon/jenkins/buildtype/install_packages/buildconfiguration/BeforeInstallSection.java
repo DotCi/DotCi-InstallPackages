@@ -28,7 +28,7 @@ import com.groupon.jenkins.buildtype.install_packages.buildconfiguration.configv
 public class BeforeInstallSection extends SerialExecutionSection {
     public static final String NAME = "before_install";
 
-    public BeforeInstallSection(ListOrSingleValue<String> configValue) {
+    public BeforeInstallSection(final ListOrSingleValue<String> configValue) {
         super(NAME, configValue);
     }
 

@@ -36,7 +36,7 @@ public abstract class ConfigSection<T extends ConfigValue<?>> {
     private final MergeStrategy mergeStrategy;
     protected T configValue;
 
-    protected ConfigSection(String name, T configValue, MergeStrategy mergeStrategy) {
+    protected ConfigSection(final String name, final T configValue, final MergeStrategy mergeStrategy) {
         this.name = name;
         this.mergeStrategy = mergeStrategy;
         this.configValue = configValue;
@@ -44,26 +44,26 @@ public abstract class ConfigSection<T extends ConfigValue<?>> {
 
     public abstract ShellCommands toScript(Combination combination);
 
-    protected void merge(ConfigSection<T> otherConfigSection) {
+    protected void merge(final ConfigSection<T> otherConfigSection) {
         if (!otherConfigSection.getConfigValue().isEmpty()) {
-            if (mergeStrategy.equals(MergeStrategy.REPLACE)) {
-                configValue.replace(otherConfigSection.configValue);
+            if (this.mergeStrategy.equals(MergeStrategy.REPLACE)) {
+                this.configValue.replace(otherConfigSection.configValue);
             } else {
-                configValue.append(otherConfigSection.configValue);
+                this.configValue.append(otherConfigSection.configValue);
             }
         }
     }
 
     protected T getConfigValue() {
-        return configValue;
+        return this.configValue;
     }
 
-    protected void setConfigValue(T config) {
+    protected void setConfigValue(final T config) {
         this.configValue = config;
     }
 
     protected String getName() {
-        return name;
+        return this.name;
 
     }
 

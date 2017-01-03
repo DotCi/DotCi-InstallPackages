@@ -46,16 +46,16 @@ public class DotCiTemplate implements ExtensionPoint {
 
 
     private String getName() {
-        String className = getClass().getSimpleName();
+        final String className = getClass().getSimpleName();
         return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, className);
     }
 
-    public BuildConfiguration getMergedTemplate(BuildConfiguration configuration, String parentTemplate, Map<String, Object> envVars) {
+    public BuildConfiguration getMergedTemplate(final BuildConfiguration configuration, final String parentTemplate, final Map<String, Object> envVars) {
         return getMergedTemplate(configuration, getTemplates().get(parentTemplate), envVars);
     }
 
-    public BuildConfiguration getMergedTemplate(BuildConfiguration configuration, DotCiTemplate parentTemplate, Map<String, Object> envVars) {
-        BuildConfiguration parentBuildConfiguration = parentTemplate.getBuildConfiguration(envVars);
+    public BuildConfiguration getMergedTemplate(final BuildConfiguration configuration, final DotCiTemplate parentTemplate, final Map<String, Object> envVars) {
+        final BuildConfiguration parentBuildConfiguration = parentTemplate.getBuildConfiguration(envVars);
         parentBuildConfiguration.merge(configuration);
         return parentBuildConfiguration;
     }
@@ -67,8 +67,8 @@ public class DotCiTemplate implements ExtensionPoint {
         return templates;
     }
 
-    public BuildConfiguration getBuildConfiguration(Map<String, Object> envVars) {
-        BuildConfiguration buildConfiguration = new BuildConfiguration(ymlDefintion, envVars);
+    public BuildConfiguration getBuildConfiguration(final Map<String, Object> envVars) {
+        final BuildConfiguration buildConfiguration = new BuildConfiguration(this.ymlDefintion, envVars);
         if (!buildConfiguration.isBaseTemplate()) {
             return getMergedTemplate(buildConfiguration, buildConfiguration.getParentTemplate(), envVars);
         }
@@ -78,7 +78,7 @@ public class DotCiTemplate implements ExtensionPoint {
 
     public synchronized void loadTemplates() {
         templates = new HashMap<String, DotCiTemplate>();
-        for (DotCiTemplate template : all()) {
+        for (final DotCiTemplate template : all()) {
             template.load();
             templates.put(template.getName(), template);
         }
@@ -90,14 +90,14 @@ public class DotCiTemplate implements ExtensionPoint {
     }
 
 
-    public DotCiTemplate getDefaultFor(GHRepository githubRepository) {
-        for (DotCiTemplate template : getTemplates().values()) {
+    public DotCiTemplate getDefaultFor(final GHRepository githubRepository) {
+        for (final DotCiTemplate template : getTemplates().values()) {
             if (template.isDefault(githubRepository)) return template;
         }
-        return null;
+        return templates.get("base");
     }
 
-    protected boolean isDefault(GHRepository githubRepository) {
+    protected boolean isDefault(final GHRepository githubRepository) {
         return false;
     }
 }

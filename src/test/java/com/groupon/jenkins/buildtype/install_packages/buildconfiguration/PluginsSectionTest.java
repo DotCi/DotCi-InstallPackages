@@ -46,8 +46,8 @@ public class PluginsSectionTest {
 
     @Test
     public void should_validate_individual_plugins() {
-        PluginsSection pluginsSection = spy(new PluginsSection(null));
-        DotCiPluginAdapter invalidPlugin = mock(DotCiPluginAdapter.class);
+        final PluginsSection pluginsSection = spy(new PluginsSection(null));
+        final DotCiPluginAdapter invalidPlugin = mock(DotCiPluginAdapter.class);
         when(invalidPlugin.getValidationErrors()).thenReturn(Arrays.asList("Invalid Config"));
         doReturn(Arrays.asList(invalidPlugin)).when(pluginsSection).getPlugins();
 

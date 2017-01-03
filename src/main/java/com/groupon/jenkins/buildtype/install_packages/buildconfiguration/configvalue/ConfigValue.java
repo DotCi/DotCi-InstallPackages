@@ -43,30 +43,29 @@ import com.google.inject.TypeLiteral;
 public abstract class ConfigValue<T> extends TypeLiteral<T> {
     private Object value;
 
-    public ConfigValue(Object value) {
+    public ConfigValue(final Object value) {
         this.value = value;
     }
 
-    public void replace(ConfigValue<?> otherConfig) {
+    public void replace(final ConfigValue<?> otherConfig) {
         this.value = otherConfig.getValue();
     }
 
     public boolean isEmpty() {
-        return value == null;
+        return this.value == null;
     }
 
     public boolean isValid() {
-        return isEmpty() ? true : getRawType().isAssignableFrom(value.getClass());
+        return isEmpty() ? true : getRawType().isAssignableFrom(this.value.getClass());
     }
 
     public abstract void append(ConfigValue<?> config);
 
-    @SuppressWarnings("unchecked")
     public T getValue() {
-        return (T) value;
+        return (T) this.value;
     }
 
-    protected void setValue(T newValue) {
+    protected void setValue(final T newValue) {
         this.value = newValue;
     }
 

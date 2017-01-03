@@ -34,7 +34,7 @@ import java.util.Set;
 public class BuildRunSection extends ConfigSection<ListOrMapOrString> {
     public static final String NAME = "run";
 
-    public BuildRunSection(ListOrMapOrString configValue) {
+    public BuildRunSection(final ListOrMapOrString configValue) {
         super(NAME, configValue, MergeStrategy.REPLACE);
     }
 
@@ -43,11 +43,11 @@ public class BuildRunSection extends ConfigSection<ListOrMapOrString> {
     }
 
     @Override
-    public ShellCommands toScript(Combination combination) {
+    public ShellCommands toScript(final Combination combination) {
         return new ShellCommands(getShellCommands(combination));
     }
 
-    private List<String> getShellCommands(Combination combination) {
+    private List<String> getShellCommands(final Combination combination) {
         if ("post_build".equals(combination.get("script"))) {
             return Collections.emptyList();
         }

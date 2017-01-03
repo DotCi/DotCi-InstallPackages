@@ -35,17 +35,17 @@ public class NotificationsSection extends ConfigSection<ListValue<?>> {
 
     public static final String NAME = "notifications";
 
-    public NotificationsSection(ListValue<?> configValue) {
+    public NotificationsSection(final ListValue<?> configValue) {
         super(NAME, configValue, MergeStrategy.APPEND);
     }
 
     @Override
-    public ShellCommands toScript(Combination combination) {
+    public ShellCommands toScript(final Combination combination) {
         return ShellCommands.NOOP;
     }
 
     public List<PostBuildNotifier> getNotifiers() {
-        List<?> notifierSpecs = getConfigValue().getValue();
+        final List<?> notifierSpecs = getConfigValue().getValue();
         return new DotCiExtensionsHelper().createNotifiers(notifierSpecs);
     }
 

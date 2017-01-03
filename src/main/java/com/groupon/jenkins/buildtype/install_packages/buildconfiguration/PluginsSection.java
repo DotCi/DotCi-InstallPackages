@@ -37,7 +37,7 @@ public class PluginsSection extends ConfigSection<ListValue<?>> {
 
     public static final String NAME = "plugins";
 
-    public PluginsSection(ListValue<?> configValue) {
+    public PluginsSection(final ListValue<?> configValue) {
         super(NAME, configValue, MergeStrategy.APPEND);
     }
 
@@ -50,14 +50,14 @@ public class PluginsSection extends ConfigSection<ListValue<?>> {
 
 
     @Override
-    public ShellCommands toScript(Combination combination) {
+    public ShellCommands toScript(final Combination combination) {
         return ShellCommands.NOOP;
     }
 
     @Override
     public Iterable<String> getValidationErrors() {
-        List<String> validationErrors = new ArrayList<String>();
-        for (DotCiPluginAdapter plugin : getPlugins()) {
+        final List<String> validationErrors = new ArrayList<String>();
+        for (final DotCiPluginAdapter plugin : getPlugins()) {
             validationErrors.addAll(plugin.getValidationErrors());
         }
         return validationErrors;

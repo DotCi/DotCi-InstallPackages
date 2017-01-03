@@ -33,12 +33,12 @@ public class LanguageVersionsSection extends ConfigSection<ListOrSingleValue<Str
 
     public static final String NAME = "language_versions";
 
-    protected LanguageVersionsSection(ListOrSingleValue<String> configValue) {
+    protected LanguageVersionsSection(final ListOrSingleValue<String> configValue) {
         super(NAME, configValue, MergeStrategy.REPLACE);
     }
 
     @Override
-    public ShellCommands toScript(Combination combination) {
+    public ShellCommands toScript(final Combination combination) {
         return ShellCommands.NOOP;
     }
 

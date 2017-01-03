@@ -35,9 +35,17 @@ public class PackagesSectionTest {
 
     @Test
     public void should_not_install_language_packages_if_language_is_unknown() {
-        ListOrSingleValue<String> packageValue = new ListOrSingleValue<String>("package1");
-        PackagesSection packagesSection = new PackagesSection(packageValue, new LanguageSection(new StringValue("unknown")), new LanguageVersionsSection(new ListOrSingleValue<String>("version1")));
-        String installPackagesScript = packagesSection.getInstallPackagesScript(new Combination(ImmutableMap.of("one", "two")));
+        final ListOrSingleValue<String> packageValue = new ListOrSingleValue<String>("package1");
+        final PackagesSection packagesSection = new PackagesSection(packageValue, new LanguageSection(new StringValue("unknown")), new LanguageVersionsSection(new ListOrSingleValue<String>("version1")));
+        final String installPackagesScript = packagesSection.getInstallPackagesScript(new Combination(ImmutableMap.of("one", "two")));
         assertEquals("install_packages package1", installPackagesScript);
+    }
+
+    @Test
+    public void should_not_install_packages_if_language_is_null() {
+        final ListOrSingleValue<String> packageValue = new ListOrSingleValue<String>("package1");
+        final PackagesSection packagesSection = new PackagesSection(packageValue, new LanguageSection(new StringValue(null)), null);
+        final String installPackagesScript = packagesSection.getInstallPackagesScript(new Combination(ImmutableMap.of("one", "two")));
+        assertEquals("true", installPackagesScript);
     }
 }

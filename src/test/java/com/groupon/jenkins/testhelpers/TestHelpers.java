@@ -33,8 +33,8 @@ import java.util.List;
 import java.util.Map;
 
 public class TestHelpers {
-    public static Map map(Object... keyValues) {
-        HashMap out = new HashMap();
+    public static Map map(final Object... keyValues) {
+        final HashMap out = new HashMap();
         for (int i = 0; i < keyValues.length; i++) {
             if (i % 2 != 0) {
                 out.put(keyValues[i - 1], keyValues[i]);
@@ -43,19 +43,19 @@ public class TestHelpers {
         return out;
     }
 
-    public static <T> List<T> list(T... values) {
+    public static <T> List<T> list(final T... values) {
         return Arrays.asList(values);
     }
 
-    public static <T> ListValue<T> configList(T... values) {
+    public static <T> ListValue<T> configList(final T... values) {
         return new ListValue<T>(Arrays.asList(values));
     }
 
-    public static ListOrSingleValue<String> configListOrSingleValue(String... values) {
+    public static ListOrSingleValue<String> configListOrSingleValue(final String... values) {
         return new ListOrSingleValue(Arrays.asList(values));
     }
 
-    public static MapValue<String, Object> configMap(Object... keyValues) {
+    public static MapValue<String, Object> configMap(final Object... keyValues) {
         return new MapValue<String, Object>(map(keyValues));
     }
 

@@ -37,25 +37,26 @@ public class PackagesSection extends ConfigSection<ListOrSingleValue<String>> {
     private final LanguageVersionsSection languageVersionsSection;
     private final LanguageSection languageSection;
 
-    protected PackagesSection(ListOrSingleValue<String> configValue, LanguageSection languageSection, LanguageVersionsSection languageVersionsSection) {
+    protected PackagesSection(final ListOrSingleValue<String> configValue, final LanguageSection languageSection, final LanguageVersionsSection languageVersionsSection) {
         super(NAME, configValue, MergeStrategy.APPEND);
         this.languageSection = languageSection;
         this.languageVersionsSection = languageVersionsSection;
     }
 
     @Override
-    public ShellCommands toScript(Combination combination) {
+    public ShellCommands toScript(final Combination combination) {
         return new ShellCommands(getInstallPackagesScript(combination));
     }
 
-    protected String getInstallPackagesScript(Combination combination) {
-        List<String> allPackages = new ArrayList<String>();
-        if (!"unknown".equalsIgnoreCase(languageSection.getLanguage())) {
+    protected String getInstallPackagesScript(final Combination combination) {
+        final List<String> allPackages = new ArrayList<String>();
+        if (this.languageSection.getLanguage() == null) return "true";
+        if (!"unknown".equalsIgnoreCase(this.languageSection.getLanguage())) {
             String languageVersion = combination.get("language_version");
             if (languageVersion == null) {
-                languageVersion = languageVersionsSection.getConfigValue().getValues().get(0);
+                languageVersion = this.languageVersionsSection.getConfigValue().getValues().get(0);
             }
-            allPackages.add(languageSection.getLanguage() + "-" + languageVersion);
+            allPackages.add(this.languageSection.getLanguage() + "-" + languageVersion);
         }
         allPackages.addAll(getConfigValue().getValues());
         return "install_packages " + Joiner.on(" ").join(allPackages);

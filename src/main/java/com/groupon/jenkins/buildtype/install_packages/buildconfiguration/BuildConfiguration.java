@@ -41,11 +41,11 @@ public class BuildConfiguration extends CompositeConfigSection {
     private PluginsSection pluginsSection;
     private ParentTemplateSection parentTemplateSection;
 
-    public BuildConfiguration(String ymlDefintion, Map<String, Object> envVars) {
+    public BuildConfiguration(final String ymlDefintion, final Map<String, Object> envVars) {
         this(new MapValue<String, Object>(new GroovyYamlTemplateProcessor(ymlDefintion, envVars).getConfig()));
     }
 
-    public BuildConfiguration(MapValue<String, ?> config) {
+    public BuildConfiguration(final MapValue<String, ?> config) {
         super(".ci.yml", config);
         setSections();
     }
@@ -56,43 +56,43 @@ public class BuildConfiguration extends CompositeConfigSection {
         this.buildSection = new BuildSection(this.getSectionConfig(BuildSection.NAME, MapValue.class));
         this.notificationsSection = new NotificationsSection(getSectionConfig(NotificationsSection.NAME, ListValue.class));
         this.pluginsSection = new PluginsSection(getSectionConfig(PluginsSection.NAME, ListValue.class));
-        setSubSections(environmentSection, buildSection, notificationsSection, pluginsSection);
+        setSubSections(this.environmentSection, this.buildSection, this.notificationsSection, this.pluginsSection);
     }
 
     public String getParentTemplate() {
-        return parentTemplateSection.getConfigValue().getValue();
+        return this.parentTemplateSection.getConfigValue().getValue();
     }
 
     public boolean isSkipped() {
-        return buildSection.isSkipped();
+        return this.buildSection.isSkipped();
     }
 
     public List<PostBuildNotifier> getNotifiers() {
-        return notificationsSection.getNotifiers();
+        return this.notificationsSection.getNotifiers();
     }
 
     public boolean isMultiLanguageVersions() {
-        return environmentSection.isMultiLanguageVersions();
+        return this.environmentSection.isMultiLanguageVersions();
     }
 
     public boolean isMultiScript() {
-        return buildSection.isMultiScript();
+        return this.buildSection.isMultiScript();
     }
 
     public List<String> getLanguageVersions() {
-        return environmentSection.getLanguageVersions();
+        return this.environmentSection.getLanguageVersions();
     }
 
     public List<DotCiPluginAdapter> getPlugins() {
-        return pluginsSection.getPlugins();
+        return this.pluginsSection.getPlugins();
     }
 
     public List<String> getScriptKeys() {
-        return buildSection.getScriptKeys();
+        return this.buildSection.getScriptKeys();
     }
 
     public String getLanguage() {
-        return environmentSection.getLanguage();
+        return this.environmentSection.getLanguage();
     }
 
     public boolean isParallized() {
@@ -100,6 +100,6 @@ public class BuildConfiguration extends CompositeConfigSection {
     }
 
     public boolean isBaseTemplate() {
-        return !parentTemplateSection.isSpecified();
+        return !this.parentTemplateSection.isSpecified();
     }
 }

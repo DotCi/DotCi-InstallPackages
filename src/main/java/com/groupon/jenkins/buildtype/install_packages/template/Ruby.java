@@ -30,7 +30,7 @@ import org.kohsuke.github.GHRepository;
 @Extension
 public class Ruby extends InstallPackages {
     @Override
-    protected boolean isDefault(GHRepository githubRepository) {
+    protected boolean isDefault(final GHRepository githubRepository) {
         return "ruby".equalsIgnoreCase(githubRepository.getLanguage());
     }
 }

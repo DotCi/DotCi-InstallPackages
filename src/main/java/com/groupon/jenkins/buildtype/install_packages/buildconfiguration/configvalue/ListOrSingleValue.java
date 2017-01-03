@@ -29,15 +29,15 @@ import java.util.Collections;
 import java.util.List;
 
 public class ListOrSingleValue<T> extends ConfigValue<Object> {
-    public ListOrSingleValue(Object... one) {
+    public ListOrSingleValue(final Object... one) {
         super(null);
     }
 
-    public ListOrSingleValue(Object value) {
+    public ListOrSingleValue(final Object value) {
         super(toList(value));
     }
 
-    private static List<?> toList(Object value) {
+    private static List<?> toList(final Object value) {
         if (value instanceof List) {
             return (List<?>) value;
         } else if (value == null) {
@@ -48,7 +48,6 @@ public class ListOrSingleValue<T> extends ConfigValue<Object> {
 
     }
 
-    @SuppressWarnings("unchecked")
     public List<T> getValues() {
         return (List<T>) getValue();
     }
@@ -59,8 +58,8 @@ public class ListOrSingleValue<T> extends ConfigValue<Object> {
     }
 
     @Override
-    public void append(ConfigValue<?> otherConfig) {
-        ArrayList<T> newValue = new ArrayList<T>();
+    public void append(final ConfigValue<?> otherConfig) {
+        final ArrayList<T> newValue = new ArrayList<T>();
         if (!isEmpty()) {
             newValue.addAll(getValues());
         }
@@ -72,7 +71,7 @@ public class ListOrSingleValue<T> extends ConfigValue<Object> {
     }
 
     @Override
-    public <R> R getValue(Class<R> returnType) {
+    public <R> R getValue(final Class<R> returnType) {
         if (List.class.isAssignableFrom(returnType)) {
             return (R) getValues();
         }

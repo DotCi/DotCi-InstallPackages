@@ -31,12 +31,12 @@ public class BeforeSection extends ConfigSection<ListOrSingleValue<String>> {
 
     public static final String NAME = "before";
 
-    protected BeforeSection(ListOrSingleValue<String> commands) {
+    protected BeforeSection(final ListOrSingleValue<String> commands) {
         super(NAME, commands, MergeStrategy.REPLACE);
     }
 
     @Override
-    public ShellCommands toScript(Combination combination) {
+    public ShellCommands toScript(final Combination combination) {
         return new ShellCommands(getConfigValue().getValues().toArray(new String[]{}));
     }
 }

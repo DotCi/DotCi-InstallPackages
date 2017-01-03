@@ -31,12 +31,12 @@ import hudson.matrix.Combination;
 public class ParentTemplateSection extends ConfigSection<StringValue> {
     public static final String NAME = "parent_template";
 
-    protected ParentTemplateSection(StringValue configValue) {
+    protected ParentTemplateSection(final StringValue configValue) {
         super(NAME, configValue, MergeStrategy.REPLACE);
     }
 
     @Override
-    public ShellCommands toScript(Combination combination) {
+    public ShellCommands toScript(final Combination combination) {
         return ShellCommands.NOOP;
     }
 }

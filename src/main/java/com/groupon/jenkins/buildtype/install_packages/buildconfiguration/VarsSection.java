@@ -34,19 +34,19 @@ import java.util.Map;
 public class VarsSection extends ConfigSection<MapValue<String, String>> {
     public static final String NAME = "vars";
 
-    public VarsSection(MapValue<String, String> configValue) {
+    public VarsSection(final MapValue<String, String> configValue) {
         super(NAME, configValue, MergeStrategy.APPEND);
     }
 
     @Override
-    public ShellCommands toScript(Combination combination) {
+    public ShellCommands toScript(final Combination combination) {
         return new ShellCommands(getEnvVariablesExportCommands());
     }
 
     protected String[] getEnvVariablesExportCommands() {
-        List<String> exportCommands = new LinkedList<String>();
-        Map<String, String> configValue = getConfigValue().getValue();
-        for (Map.Entry<String, String> var : configValue.entrySet()) {
+        final List<String> exportCommands = new LinkedList<String>();
+        final Map<String, String> configValue = getConfigValue().getValue();
+        for (final Map.Entry<String, String> var : configValue.entrySet()) {
             exportCommands.add(String.format("export %s=%s", var.getKey(), var.getValue()));
         }
         return exportCommands.toArray(new String[exportCommands.size()]);

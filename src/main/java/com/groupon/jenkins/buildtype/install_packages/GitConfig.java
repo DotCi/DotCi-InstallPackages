@@ -21,15 +21,15 @@ public class GitConfig extends GlobalConfiguration {
     }
 
     public String getCloneUrlTemplate() {
-        return StringUtils.isEmpty(cloneUrlTemplate) ? DEFAULT_CLONE_URL_TEMPlATE : cloneUrlTemplate;
+        return StringUtils.isEmpty(this.cloneUrlTemplate) ? DEFAULT_CLONE_URL_TEMPlATE : this.cloneUrlTemplate;
     }
 
-    public void setCloneUrlTemplate(String cloneUrlTemplate) {
+    public void setCloneUrlTemplate(final String cloneUrlTemplate) {
         this.cloneUrlTemplate = cloneUrlTemplate;
     }
 
     @Override
-    public boolean configure(StaplerRequest req, JSONObject json) throws FormException {
+    public boolean configure(final StaplerRequest req, final JSONObject json) throws FormException {
         req.bindJSON(this, json);
         save();
         return true;
