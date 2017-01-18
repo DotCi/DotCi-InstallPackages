@@ -33,6 +33,7 @@ import com.groupon.jenkins.buildtype.install_packages.buildconfiguration.BuildCo
 import com.groupon.jenkins.buildtype.plugins.DotCiPluginAdapter;
 import com.groupon.jenkins.buildtype.util.shell.ShellCommands;
 import com.groupon.jenkins.buildtype.util.shell.ShellScriptRunner;
+import com.groupon.jenkins.dynamic.build.DotCiBuildInfoAction;
 import com.groupon.jenkins.dynamic.build.DynamicBuild;
 import com.groupon.jenkins.dynamic.build.DynamicSubBuild;
 import com.groupon.jenkins.dynamic.build.execution.BuildExecutionContext;
@@ -47,11 +48,14 @@ import hudson.matrix.AxisList;
 import hudson.matrix.Combination;
 import hudson.model.BuildListener;
 import hudson.model.Result;
+import hudson.model.Run;
+import org.yaml.snakeyaml.Yaml;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -68,6 +72,7 @@ public class InstallPackagesBuild extends BuildType implements SubBuildRunner {
     @Override
     public Result runBuild(final DynamicBuild dynamicBuild, final BuildExecutionContext buildExecutionContext, final Launcher launcher, final BuildListener listener) throws IOException, InterruptedException {
         this.buildConfiguration = calculateBuildConfiguration(dynamicBuild, listener);
+        addProcessedYamlToDotCiInfoAction(dynamicBuild, this.buildConfiguration.getConfiguration());
         if (this.buildConfiguration.isSkipped()) {
             dynamicBuild.skip();
             return Result.SUCCESS;
@@ -83,6 +88,15 @@ public class InstallPackagesBuild extends BuildType implements SubBuildRunner {
         runPlugins(dynamicBuild, this.buildConfiguration.getPlugins(), listener, launcher);
         runNotifiers(dynamicBuild, this.buildConfiguration, listener);
         return result;
+    }
+
+    private void addProcessedYamlToDotCiInfoAction(final Run run, final Map config) {
+        final DotCiBuildInfoAction dotCiBuildInfoAction = run.getAction(DotCiBuildInfoAction.class);
+        if (dotCiBuildInfoAction == null) {
+            run.addAction(new DotCiBuildInfoAction(new Yaml().dump(config)));
+        } else {
+            dotCiBuildInfoAction.setBuildConfiguration(new Yaml().dump(config));
+        }
     }
 
 

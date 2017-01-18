@@ -102,4 +102,8 @@ public class BuildConfiguration extends CompositeConfigSection {
     public boolean isBaseTemplate() {
         return !this.parentTemplateSection.isSpecified();
     }
+
+    public Map getConfiguration() {
+        return this.getConfigValue().getValue();
+    }
 }
