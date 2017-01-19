@@ -90,13 +90,14 @@ public class InstallPackagesBuild extends BuildType implements SubBuildRunner {
         return result;
     }
 
-    private void addProcessedYamlToDotCiInfoAction(final Run run, final Map config) {
+    private void addProcessedYamlToDotCiInfoAction(final Run run, final Map config) throws IOException {
         final DotCiBuildInfoAction dotCiBuildInfoAction = run.getAction(DotCiBuildInfoAction.class);
         if (dotCiBuildInfoAction == null) {
             run.addAction(new DotCiBuildInfoAction(new Yaml().dump(config)));
         } else {
             dotCiBuildInfoAction.setBuildConfiguration(new Yaml().dump(config));
         }
+        run.save();
     }
 
 
