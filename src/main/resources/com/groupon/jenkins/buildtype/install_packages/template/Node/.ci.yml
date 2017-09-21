@@ -34,7 +34,8 @@ build:
   before:
     - trap "rm -rf $TMPDIR" EXIT HUP INT QUIT PIPE TERM
     - mkdir -p $TMPDIR
-    - npm cache clear
+    # npm 5 doesn't support `cache clear`, gracefully ignoring the error that causes
+    - npm cache clear || true
     - npm install
   run:
     - npm test
