@@ -34,7 +34,7 @@ build:
   before:
     - trap "rm -rf $TMPDIR" EXIT HUP INT QUIT PIPE TERM
     - mkdir -p $TMPDIR
-    - npm cache clear
+    - npm cache clear || true
     - npm install
   run:
     - npm test
